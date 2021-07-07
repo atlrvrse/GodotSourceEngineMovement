@@ -1,0 +1,13 @@
+[gd_scene load_steps=1 format=2]
+
+[node type="Spatial" name="Scene"]
+
+[node name="SUN_light_environment" type="DirectionalLight" parent="."]
+
+light_specular = 1.0
+light_color = Color(1.0, 0.981616, 0.903545, 1.0)
+shadow_color = Color(0.0, 0.0, 0.0, 1.0)
+light_energy = 4.17431
+transform = Transform(-0.0179511, -0.0044114, -0.00460446, -0.00216383, -0.00872537, 0.0167955, -0.00599828, 0.0163496, 0.00772096, -2.1336, 51.6185, -0.688183)
+light_negative = false
+shadow_enabled = true

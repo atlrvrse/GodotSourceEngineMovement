@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/ui_showpos.gd" type="Script" id=1]
+
+[node name="ui_showpos" type="GridContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 9.0
+margin_top = 9.0
+custom_constants/vseparation = 5
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pos" type="Label" parent="."]
+margin_right = 1271.0
+margin_bottom = 14.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "pos:"
+
+[node name="ang" type="Label" parent="."]
+margin_top = 19.0
+margin_right = 1271.0
+margin_bottom = 33.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "ang:"
+
+[node name="vel" type="Label" parent="."]
+margin_top = 38.0
+margin_right = 1271.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/line_spacing = 0
+text = "vel:"
+
+[node name="is_on_floor" type="Label" parent="."]
+margin_top = 57.0
+margin_right = 1271.0
+margin_bottom = 71.0
+custom_colors/font_color = Color( 0, 1, 0.0862745, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "is_on_floor:"

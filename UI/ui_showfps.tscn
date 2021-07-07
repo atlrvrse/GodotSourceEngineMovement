@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/UI/ui_showfps.gd" type="Script" id=1]
+
+[node name="ui_showfps" type="GridContainer"]
+anchor_left = 0.937
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.511963
+margin_top = 3.0
+margin_right = -3.0
+margin_bottom = -3.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fps" type="Label" parent="."]
+margin_right = 23.0
+margin_bottom = 14.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "fps:"

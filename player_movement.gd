@@ -12,7 +12,6 @@ func _physics_process(delta):
 
 func CheckVelocity():
 	# bound velocity
-
 	# Bound it.
 	if vel.length() > ply_maxvelocity:
 		vel = ply_maxvelocity
@@ -56,11 +55,10 @@ func WalkMove(delta):
 	# Zero out y value
 	wishvel.y = 0
 	
-	var wishdir = wishvel
+	var wishdir = wishvel.normalized()
 	# VectorNormalize in the original source code doesn't actually return the length of the normalized vector
 	# It returns the length of the vector before it was normalized
-	var wishspeed = wishdir.length()
-	wishdir = wishdir.normalized()
+	var wishspeed = wishvel.length()
 	
 	# clamp to game defined max speed
 	if wishspeed != 0.0 and wishspeed > ply_maxspeed:
@@ -90,11 +88,10 @@ func AirMove(delta):
 	# Zero out y value
 	wishvel.y = 0
 	
-	var wishdir = wishvel
+	var wishdir = wishvel.normalized()
 	# VectorNormalize in the original source code doesn't actually return the length of the normalized vector
 	# It returns the length of the vector before it was normalized
-	var wishspeed = wishdir.length()
-	wishdir = wishdir.normalized()
+	var wishspeed = wishvel.length()
 	
 	# clamp to game defined max speed
 	if wishspeed != 0.0 and wishspeed > ply_maxspeed:
@@ -134,24 +131,19 @@ func Accelerate(wishdir, wishspeed, accel, delta):
 	var accelspeed = accel * wishspeed * delta
 	
 	# Cap at addspeed
-	if accelspeed > addspeed:
-		accelspeed = addspeed
+	accelspeed = min(accelspeed, addspeed)
 	
 	# Adjust velocity.
 	vel += accelspeed * wishdir
 	
 func AirAccelerate(wishdir, wishspeed, accel, delta):
+	# cap speed
+	wishspeed = min(wishspeed, ply_airspeedcap)
 	# See if we are changing direction a bit
 	var currentspeed = vel.dot(wishdir)
 	# Reduce wishspeed by the amount of veer.
 	var addspeed = wishspeed - currentspeed
 	
-	var wishspd = wishspeed
-
-	# cap speed
-	if wishspd > ply_airspeedcap:
-		wishspd = ply_airspeedcap
-
 	# If not going to add any speed, done.
 	if addspeed <= 0:
 		return
@@ -160,9 +152,8 @@ func AirAccelerate(wishdir, wishspeed, accel, delta):
 	var accelspeed = accel * wishspeed * delta 
 	
 	# Cap at addspeed
-	if accelspeed > addspeed:
-		accelspeed = addspeed
-	
+	accelspeed = min(accelspeed, addspeed)
+
 	# Adjust velocity.
 	vel += accelspeed * wishdir
 	
@@ -211,10 +202,9 @@ func CheckJumpButton():
 	
 	var flGroundFactor = 1.0
 	var flMul = sqrt(2 * ply_gravity * ply_jumpheight)
-	
 	vel.y += flGroundFactor * flMul  # 2 * gravity * height
-	# Add a little forward velocity based on your current forward velocity - if you are not sprinting.
 	"""
+	# Add a little forward velocity based on your current forward velocity - if you are not sprinting.
 	var vel2d = Vector2(vel.x, vel.z)
 	var vecforward = Vector3.FORWARD
 	vecforward = vecforward.rotated(Vector3.UP, $view.rotation.y)

@@ -2,17 +2,20 @@ extends "res://player_shared.gd"
 
 func _input(event):
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		ViewAngles(event)
+		InputMouse(event)
 	
 # warning-ignore:unused_argument
 func _process(delta):
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		InputKeys()
+		ViewAngles(delta)
 	
-func ViewAngles(event):
-	xlook += -event.relative.y * ply_xlookspeed
+func InputMouse(event):
+	xlook += -event.relative.y * ply_xlookspeed 
 	ylook += -event.relative.x * ply_ylookspeed
 	xlook = clamp(xlook, ply_maxlookangle_down, ply_maxlookangle_up)
+	
+func ViewAngles(delta):
 	$view.rotation_degrees.x = xlook
 	$view.rotation_degrees.y = ylook
 	

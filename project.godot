@@ -12,10 +12,16 @@ _global_script_classes=[ {
 "base": "KinematicBody",
 "class": "Player",
 "language": "GDScript",
-"path": "res://player_shared.gd"
+"path": "res://Scripts/Player/player_movement.gd"
+}, {
+"base": "Spatial",
+"class": "PlayerStart",
+"language": "GDScript",
+"path": "res://Scripts/Tools/PlayerStart/PlayerStart.gd"
 } ]
 _global_script_class_icons={
-"Player": ""
+"Player": "",
+"PlayerStart": ""
 }
 
 [application]
@@ -24,10 +30,16 @@ config/name="GodotSourceEngineMovement"
 run/main_scene="res://Maps/crossfire.tscn"
 config/icon="res://icon.png"
 
+[debug]
+
+settings/fps/force_fps=200
+
 [display]
 
-window/size/width=1280
-window/size/height=720
+window/size/width=1920
+window/size/height=1080
+window/size/fullscreen=true
+window/vsync/use_vsync=false
 
 [input]
 
@@ -100,6 +112,16 @@ in_down={
 in_jump={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
+in_crouch={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"unicode":0,"echo":false,"script":null)
+ ]
+}
+in_sprint={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
  ]
 }
 

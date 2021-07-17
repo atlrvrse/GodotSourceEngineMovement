@@ -3,7 +3,7 @@ extends GridContainer
 var ui_showpos = 0
 onready var player = get_parent()
 onready var view = get_node("../view")
-
+"""
 func _process(delta):
 	
 	var pos = player.global_transform.origin
@@ -30,3 +30,4 @@ func _process(delta):
 			$vel.text += str(vel)
 			
 			$is_on_floor.set_text("is_on_floor:   " + str(is_on_floor))
+"""

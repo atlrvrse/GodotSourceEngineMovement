@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Spatial
+
+var player = preload(\"res://Scripts/Player/player.tscn\")
+var playerscript = load(\"res://Scripts/Player/PlayerClasses/human.gd\")
+
+func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _init():
+	player = player.instance()
+	add_child(player)
+	playerscript.new()
+	player.set_script(playerscript)
+"
+
+[node name="level" type="Spatial"]
+script = SubResource( 1 )

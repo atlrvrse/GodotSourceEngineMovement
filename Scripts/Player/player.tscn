@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/ui_showpos.tscn" type="PackedScene" id=1]
 
 [sub_resource type="CylinderShape" id=1]
-radius = 2.0
 height = 5.0
+radius = 2.0
 
 [node name="player" type="KinematicBody"]
 
@@ -20,3 +22,9 @@ fov = 100.0
 far = 300.0
 
 [node name="tween" type="Tween" parent="view"]
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 6.967
+one_shot = true
+
+[node name="ui_showpos" parent="." instance=ExtResource( 1 )]

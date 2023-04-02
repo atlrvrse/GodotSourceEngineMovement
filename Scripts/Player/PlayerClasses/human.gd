@@ -1,14 +1,9 @@
 extends Player
-
-var stopfuckingcrouchinginmidairyoufuckingcunt : bool = false
-
 func Move(delta):
 	
 	if crouched:
 		maxspeed = 9
-	else:
-		#var new_cap = (velLength-ply_maxspeed)/3 + ply_maxspeed
-			
+	else:	
 		maxspeed = ply_maxspeed
 		#print(maxspeed)
 		

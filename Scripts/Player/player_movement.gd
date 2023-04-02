@@ -3,10 +3,27 @@
 extends "res://Scripts/Player/player_input.gd"
 class_name Player
 
+
+onready var camera = $view
+onready var coyote_timer = $CoyoteTimer
+
+func _ready():
+	var path = self.get_path()
+	print(path)
+
 # warning-ignore:unused_argument
 func _physics_process(delta):
 	Move(delta)
 	CrouchCamera()
+	wasOnFloor = is_on_floor()
+	vel = move_and_slide_with_snap(vel, snap, Vector3.UP, true, 4, ply_maxslopeangle, false)
+	if(!Input.is_action_pressed("in_jump")):
+		if(wasOnFloor && !is_on_floor()):
+			coyote_timer.start()
+			#print("start timer")
+		
+	
+
 	
 func CheckVelocity():
 	# bound velocity
@@ -26,12 +43,15 @@ func Move(delta):
 	else:
 		AirMove(delta)
 	
-	if Input.is_action_just_pressed("in_jump"):
+	if Input.is_action_pressed("in_jump"):
+		
 		CheckJumpButton()
+		coyote_timer.stop()
 		
 	CheckVelocity()
 	
-	vel = move_and_slide_with_snap(vel, snap, Vector3.UP, true, 4, ply_maxslopeangle, false)
+	#print( Vector3.UP)
+	
 	
 func CrouchCamera():
 	
@@ -90,8 +110,8 @@ func AirMove(delta):
 	var forward = Vector3.FORWARD
 	var side = Vector3.LEFT
 	
-	forward = forward.rotated(Vector3.UP, $view.rotation.y)
-	side = side.rotated(Vector3.UP, $view.rotation.y)
+	forward = forward.rotated(Vector3.UP, camera.rotation.y)
+	side = side.rotated(Vector3.UP, camera.rotation.y)
 	
 	forward = forward.normalized()
 	side = side.normalized()
@@ -127,8 +147,8 @@ func NoclipMove(delta):
 	var side = Vector3.LEFT
 	var up = Vector3.UP
 	
-	forward = forward.rotated(Vector3.UP, $view.rotation.y)
-	side = side.rotated(Vector3.UP, $view.rotation.y)
+	forward = forward.rotated(Vector3.UP, camera.rotation.y)
+	side = side.rotated(Vector3.UP, camera.rotation.y)
 	
 	forward = forward.normalized()
 	side = side.normalized()
@@ -139,7 +159,7 @@ func NoclipMove(delta):
 	
 	var wishvel = side * smove + forward * fmove
 	if fmove != 0:
-		wishvel.y += $view.rotation_degrees.x * 50
+		wishvel.y += camera.rotation_degrees.x * 50
 	
 	var wishdir = wishvel.normalized()
 	# VectorNormalize in the original source code doesn't actually return the length of the normalized vector
@@ -159,7 +179,7 @@ func NoclipMove(delta):
 	$bottom.set_disabled(true)
 	
 func Accelerate(wishdir, wishspeed, accel, delta):
-	# See if we are changing direction a bit
+# See if we are changing direction a bit
 	var currentspeed = vel.dot(wishdir)
 	# Reduce wishspeed by the amount of veer.
 	var addspeed = wishspeed - currentspeed
@@ -172,11 +192,22 @@ func Accelerate(wishdir, wishspeed, accel, delta):
 	var accelspeed = accel * wishspeed * delta
 	
 	# Cap at addspeed
-	accelspeed = min(accelspeed, addspeed)
 	
 	for i in range(3):
 		# Adjust velocity.
 		vel += accelspeed * wishdir
+		
+	#reduce straifing on ground
+	
+	#var groundvel = Vector2(vel[0], vel[2])
+	#var velLength = groundvel.length()
+	#var angle = groundvel.angle()
+	
+	#var goalvec = Vector2.RIGHT.rotated(angle)*maxspeed
+	
+	#vel[0] = lerp(vel[0], goalvec[0], 0.2)
+	#vel[2] = lerp(vel[2], goalvec[1], 0.2)
+	
 	
 func AirAccelerate(wishdir, wishspeed, accel, delta):
 	# cap speed
@@ -236,13 +267,16 @@ func Friction(delta):
 
 func CheckJumpButton():
 	snap = Vector3.ZERO
-			
-	if not is_on_floor():
+	#print("STEP")
+	#print("should have stopped: " +str(!coyote_timer.is_stopped()))
+	if not (is_on_floor() || !coyote_timer.is_stopped()):
 			return
+	#print("I JUMPED")
 	
 	var flGroundFactor = 1.0
 	var flMul = sqrt(2 * ply_gravity * ply_jumpheight)
-	vel.y += flGroundFactor * flMul  # 2 * gravity * height
+	vel.y = flGroundFactor * flMul  + max(0, vel.y)# 2 * gravity * height
+	
 	
 	# Add a little forward velocity based on your current forward velocity - if you are not sprinting.
 	"""
@@ -268,3 +302,6 @@ func CheckJumpButton():
 	# Add it on
 	vel += vecforward * flSpeedAddition
 	"""
+
+
+

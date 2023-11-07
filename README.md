@@ -1,3 +1,5 @@
+Hello, I am no longer working on this as I am working on a godot4 version of the project. https://github.com/EricXu1728/Godot4SourceEngineMovement
+
 # GodotSourceEngineMovement
 ~~A Kinematic player controller written in GDScript that mimics Source Engine movement~~
 This branch is not entirely faithful to csgo. The goal of this branch is to continue work on the project that has been mostly abandoned, as well as add some modern features to make gameplay smoother. I want to use this as a starting point for my own game and will make a sperate branch/fork for something like that

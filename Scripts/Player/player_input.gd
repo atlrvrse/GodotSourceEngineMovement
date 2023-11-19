@@ -1,8 +1,16 @@
 extends "res://Scripts/Player/player_shared.gd"
 
+
 func _input(event):
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		InputMouse(event)
+		
+	if event.is_action_pressed("ui_cancel"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		
+	if event.is_action_pressed("click"):
+		if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		
 	if Input.is_action_pressed("in_crouch"):
 		crouching = true
@@ -44,3 +52,6 @@ func InputKeys():
 		forwardmove = 0
 	else:
 		forwardmove = clamp(forwardmove, -4096, 4096)
+		
+	
+	

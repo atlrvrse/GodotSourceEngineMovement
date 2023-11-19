@@ -1,31 +1,25 @@
 extends Player
-
-var stopfuckingcrouchinginmidairyoufuckingcunt : bool = false
-
 func Move(delta):
 	
 	if crouched:
 		maxspeed = 9
-	else:
-		maxspeed = 15
+	else:	
+		maxspeed = ply_maxspeed
+		#print(maxspeed)
 		
-	if is_on_floor():
-		stopfuckingcrouchinginmidairyoufuckingcunt = false
 		
-	if !stopfuckingcrouchinginmidairyoufuckingcunt:
+	if Input.is_action_just_pressed("in_crouch"):
 		Crouch()
 		
 	.Move(delta)
+	#var a =Vector3(0, 100, 0)
+
+	#move_and_slide_with_snap(a, snap, Vector3.UP, true, 4, ply_maxslopeangle, false)
 
 func Crouch():
-	# dumbest shit i ever coded
-	if crouching and !is_on_floor() and Input.is_action_just_pressed("in_crouch"):
-		var up = collidertop.get_translation(); var down = colliderbottom.get_translation();
-		
-		# FUCKING CROUCHJUMPING
-		self.global_translate(Vector3(0, up.distance_to(down) / 2.5, 0))
-		self.global_translate(Vector3(0, down.distance_to(up) / 2.5, 0))
-		
-		if !is_on_floor():
-			stopfuckingcrouchinginmidairyoufuckingcunt = true
-	
+	if is_on_floor():
+		var a = Vector3(0,-200, 0)
+		move_and_slide_with_snap(a, snap, Vector3.UP, true, 4, ply_maxslopeangle, false)
+	else:
+		var b =Vector3(0, 200, 0)
+		move_and_slide_with_snap(b, snap, Vector3.UP, true, 4, ply_maxslopeangle, false)
